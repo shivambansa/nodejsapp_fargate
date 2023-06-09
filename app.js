@@ -7,7 +7,7 @@ const port = 8080;
 const host = '0.0.0.0';
 
 app.get('/', (req, res) => {
-  res.send('This is new world');
+  res.send('This is Hello world');
 })
 
 app.listen(port, host);
