@@ -11,9 +11,9 @@ phases:
   build:
     commands:
       - echo Building Docker image...
-      - docker build -t sample-node-js .
+      - docker build -t sample-node-js1 .
       - echo Pushing Docker image to ECR...
-      - docker tag sample-node-js:latest public.ecr.aws/c8j7z0n5/sample-node-js:latest
+      - docker tag sample-node-js1:latest public.ecr.aws/c8j7z0n5/sample-node-js:latest
       - docker push public.ecr.aws/c8j7z0n5/sample-node-js:latest
   post_build:
     commands:
