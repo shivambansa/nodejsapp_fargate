@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/c8j7z0n5
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t sample-node-js .
+      - echo Pushing Docker image to ECR...
+      - docker tag sample-node-js:latest public.ecr.aws/c8j7z0n5/sample-node-js:latest
+      - docker push public.ecr.aws/c8j7z0n5/sample-node-js:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Creating image definitions file...
+      - echo '[{"name":"nodevala","imageUri":"public.ecr.aws/c8j7z0n5/sample-node-js:latest","containerPort":8080}]' > imagedefinitions.json
+
+artifacts:
+  files:
+    - '**/*'
+  secondary-artifacts:
+    imagedefinitions:
+      files:
+        - imagedefinitions.json
